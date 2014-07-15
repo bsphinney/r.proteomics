@@ -13,17 +13,17 @@ library("cleaver")
 library("seqinr")
 
 #MacWD
-#setwd("/Volumes/Lab$/service/on_campus/DePeters/")
+setwd("/Volumes/Lab$/service/on_campus/DePeters/Final Analysis/PD14/with phos/")
 
 
 #PC WD
-setwd("P:/service/on_campus/DePeters/")
+#setwd("P:/service/on_campus/DePeters/")
 
-infile <- "Samples View Report With Clusters for My Experiment PD14 Normalized final.xls"
-infasta <- "Subset Database_PD14.fasta"
+infile <- "Samples View Report With Clusters for goat pd14 total peak area phos.xls"
+infasta <- "Subset Database_PD14_phos.fasta"
 
-
-raw.data <- read.table(file=infile, sep="\t",header=TRUE)
+strs<-readLines(infile)
+raw.data <- read.table(file=infile, sep="\t",header=TRUE,nrows=length(strs)-1,fill=TRUE)
 
 
 sequences <- read.fasta(file=infasta, seqtype="AA", as.string=TRUE, seqonly=FALSE)
@@ -49,11 +49,13 @@ ibaqs2<-unname(ibaqs2)
 ibaqs_all <-data.frame(Accession.Number,ibaqs2)
 
 # write file with IBAQ peptide numbers per protein
-write.csv(ibaqs_all, file="ibaqs_final_p.csv")
+write.csv(ibaqs_all, file="ibaqs_final_phos.csv")
 
 #merge df's
  merged<- merge(ibaqs_all,raw.data,by="Accession.Number")
 merged$Protein.Grouping.Ambiguity <-NULL
+merged$Visible. <-NULL
+merged$Starred. <-NULL
 ibaq_nums<-merged[,1:4]
 
 #divide total peak are by IBAQ numbers
@@ -75,7 +77,12 @@ pd.ibaq.abs1 <-ibaq_nums[,5:22]
 pd.ibaq.abs <-data.frame(mapply(`*`,pd.ibaq.abs1,ibaq.pd.nums.factors))
 pd.ibaq.abs.final <-cbind(ibaq_nums[,1:4],pd.ibaq.abs)
 
-write.csv(pd.ibaq.abs.final,file="pd14_ibaq_p.csv")
+# rearrage columns
+
+
+pd.ibaq.abs.final <-pd.ibaq.abs.final[,c(1:4,7,5,6,10,9,8,12,13,11,14,16,15,18,17,19,22,21,20)]
+
+write.csv(pd.ibaq.abs.final,file="pd14_ibaq_p_phos.csv")
 
 # load IBAQ data from maxquant and select goat proteins Need maxquant data for this
 

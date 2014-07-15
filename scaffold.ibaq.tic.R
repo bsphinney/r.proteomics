@@ -82,7 +82,7 @@ pd.ibaq.abs.final <-cbind(ibaq_nums[,1:4],pd.ibaq.abs)
 
 # pd.ibaq.abs.final <-pd.ibaq.abs.final[,c(1:4,7,5,6,10,9,8,12,13,11,14,16,15,18,17,19,22,21,20)]
 
-write.csv(pd.ibaq.abs.final,file="pd14_ibaq_p_phos.tic.csv")
+write.csv(pd.ibaq.abs.final,file="xtandem_ibaq_p_phos.tic.csv")
 
 # load IBAQ data from maxquant and select goat proteins Need maxquant data for this
 
